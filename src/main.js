@@ -57,6 +57,16 @@ app.on('ready', () => {
   const right = createWindowSide('right');
 
   // your code here :)
+  ipcMain.on('draw', (event, arg) => {
+    const renderers = webContents.getAllWebContents();
+    renderers.forEach( (renderer) => {
+      if (renderer === event. sender) {
+        return;
+      }
+
+      renderer.send('draw', arg);
+    });
+  });
 });
 
 app.on('window-all-closed', () => {
