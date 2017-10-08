@@ -22,13 +22,13 @@ The application is split between two main folders...
 
 `src` - this folder is intended for files which need to be transpiled or compiled (files which can't be used directly by Electron).
 
-`app` - contains all static assets (put here images, css, html etc.) which don't need any pre-processing.
+`renderer` - contains all static assets (put here images, css, html etc.) which don't need any pre-processing.
 
-The build process compiles all stuff from the `src` folder and puts it into the `app` folder, so after the build has finished, your `app` folder contains the full, runnable application.
+The build process compiles all stuff from the `src` folder and puts it into the `renderer` folder, so after the build has finished, your `renderer` folder contains the full, runnable application.
 
 Treat `src` and `app` folders like two halves of one bigger thing.
 
-The drawback of this design is that `app` folder contains some files which should be git-ignored and some which shouldn't (see `.gitignore` file). But thanks to this two-folders split development builds are much (much!) faster.
+The drawback of this design is that `renderer` folder contains some files which should be git-ignored and some which shouldn't (see `.gitignore` file). But thanks to this two-folders split development builds are much (much!) faster.
 
 # Development
 
@@ -50,7 +50,7 @@ Side note: [Electron authors advise](http://electron.atom.io/docs/tutorial/elect
 
 ## The build pipeline
 
-Build process is founded upon [gulp](https://github.com/gulpjs/gulp) task runner and [rollup](https://github.com/rollup/rollup) bundler. There are two entry files for your code: `src/background.js` and `src/app.js`. Rollup will follow all `import` statements starting from those files and compile code of the whole dependency tree into one `.js` file for each entry point.
+Build process is founded upon [gulp](https://github.com/gulpjs/gulp) task runner and [rollup](https://github.com/rollup/rollup) bundler. There are two entry files for your code: `src/main.js` and `src/renderer.js`. Rollup will follow all `import` statements starting from those files and compile code of the whole dependency tree into one `.js` file for each entry point.
 
 You can [add as many more entry points as you like](https://github.com/szwacz/electron-boilerplate/blob/master/tasks/build_app.js#L16) (e.g. to split your app into modules).
 
