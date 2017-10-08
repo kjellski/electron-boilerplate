@@ -5,7 +5,7 @@
 
 import path from 'path';
 import url from 'url';
-import { app, Menu } from 'electron';
+import { app, Menu, ipcMain, webContents } from 'electron';
 import { devMenuTemplate } from './menu/dev_menu_template';
 import { editMenuTemplate } from './menu/edit_menu_template';
 import createWindow from './helpers/window';
@@ -55,10 +55,11 @@ app.on('ready', () => {
 
   const left = createWindowSide('left');
   const right = createWindowSide('right');
+
+  // your code here :)
 });
 
 app.on('window-all-closed', () => {
   app.quit();
 });
 
-// your code here :)
