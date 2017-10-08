@@ -33,22 +33,32 @@ if (env.name !== 'production') {
 app.on('ready', () => {
   setApplicationMenu();
 
-  const mainWindow = createWindow('main', {
-    width: 1000,
-    height: 600,
-  });
+  const createWindowSide = (name) => {
+    const win = createWindow(name, {
+      width: 400,
+      height: 400,
+      resizable: false
+    });
 
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'app.html'),
-    protocol: 'file:',
-    slashes: true,
-  }));
+    win.loadURL(url.format({
+      pathname: path.join(__dirname, 'app.html'),
+      protocol: 'file:',
+      slashes: true,
+    }));
 
-  if (env.name === 'development') {
-    mainWindow.openDevTools();
-  }
+    if (env.name === 'development') {
+      win.openDevTools();
+    }
+
+    return win;
+  };
+
+  const left = createWindowSide('left');
+  const right = createWindowSide('right');
 });
 
 app.on('window-all-closed', () => {
   app.quit();
 });
+
+// your code here :)

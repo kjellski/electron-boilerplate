@@ -6,25 +6,20 @@ import './helpers/external_links.js';
 
 // All stuff below is just to show you how it works. You can delete all of it.
 import { remote } from 'electron';
-import jetpack from 'fs-jetpack';
-import { greet } from './hello_world/hello_world';
-import env from './env';
+const canvas = document.getElementById('canvas');
+const context = canvas.getContext("2d");
 
-const app = remote.app;
-const appDir = jetpack.cwd(app.getAppPath());
+const drawPoint = ({ x, y }) => {
+  context.strokeStyle = "#df4b26";
+  context.fillRect(x, y, 1, 1);
+}
 
-// Holy crap! This is browser window with HTML and stuff, but I can read
-// here files form disk like it's node.js! Welcome to Electron world :)
-const manifest = appDir.read('package.json', 'json');
+const mouseMoveListener = (moveEvent) => {
+  drawPoint(moveEvent);
+  // your code here :)
 
-const osMap = {
-  win32: 'Windows',
-  darwin: 'macOS',
-  linux: 'Linux',
 };
 
-document.querySelector('#greet').innerHTML = greet();
-document.querySelector('#os').innerHTML = osMap[process.platform];
-document.querySelector('#author').innerHTML = manifest.author;
-document.querySelector('#env').innerHTML = env.name;
-document.querySelector('#electron-version').innerHTML = process.versions.electron;
+
+import registerPressedMoveListener from './mouse_listener';
+registerPressedMoveListener(canvas, mouseMoveListener);
