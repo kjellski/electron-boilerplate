@@ -17,6 +17,13 @@ export const devMenuTemplate = {
     },
   },
   {
+    label: 'Add new window',
+    accelerator: 'Cmd+T',
+    click: () => {
+      app.emit('create-draw-window');
+    }
+  },
+  {
     label: 'Quit',
     accelerator: 'CmdOrCtrl+Q',
     click: () => {

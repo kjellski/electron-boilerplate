@@ -30,31 +30,38 @@ if (env.name !== 'production') {
   app.setPath('userData', `${userDataPath} (${env.name})`);
 }
 
+let windows = {};
+let windowIndex = 0;
+const createWindowSide = () => {
+  const windowName = `window-${windowIndex++}`;
+  const win = createWindow(windowName, {
+    width: 400,
+    height: 400,
+    resizable: false
+  });
+
+  win.loadURL(url.format({
+    pathname: path.join(__dirname, 'app.html'),
+    protocol: 'file:',
+    slashes: true,
+  }));
+
+  if (env.name === 'development') {
+    win.openDevTools();
+  }
+
+  win.on('closed', () => {
+    delete windows[windowName];
+  });
+
+  return windows[windowName] = win;
+};
+
 app.on('ready', () => {
   setApplicationMenu();
 
-  const createWindowSide = (name) => {
-    const win = createWindow(name, {
-      width: 400,
-      height: 400,
-      resizable: false
-    });
-
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, 'app.html'),
-      protocol: 'file:',
-      slashes: true,
-    }));
-
-    if (env.name === 'development') {
-      win.openDevTools();
-    }
-
-    return win;
-  };
-
-  const left = createWindowSide('left');
-  const right = createWindowSide('right');
+  createWindowSide();
+  createWindowSide();
 
   // your code here :)
   ipcMain.on('draw', (event, arg) => {
@@ -67,6 +74,10 @@ app.on('ready', () => {
       renderer.send('draw', arg);
     });
   });
+});
+
+app.on('create-draw-window', () => {
+  createWindowSide();
 });
 
 app.on('window-all-closed', () => {
