@@ -9,15 +9,24 @@ import { remote } from 'electron';
 const canvas = document.getElementById('canvas');
 const context = canvas.getContext("2d");
 
-const drawPoint = ({ x, y }) => {
-  context.strokeStyle = "#df4b26";
-  context.fillRect(x, y, 1, 1);
+const drawPoint = ({ x, y }, color) => {
+  context.fillStyle = color;
+  context.fillRect(x, y, 2, 2);
 }
 
-const mouseMoveListener = (moveEvent) => {
-  drawPoint(moveEvent);
-  // your code here :)
+const getMousePos = (canvas, evt) => {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top
+  };
+};
 
+const mouseMoveListener = (moveEvent) => {
+  const point = getMousePos(canvas, moveEvent);
+  drawPoint(point, 'blue');
+
+  // your code here :)
 };
 
 
