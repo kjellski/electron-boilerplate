@@ -11,14 +11,20 @@ const context = canvas.getContext("2d");
 
 const drawPoint = ({ x, y }, color) => {
   context.fillStyle = color;
-  context.fillRect(x, y, 1, 1);
+  context.fillRect(x, y, 2, 2);
 }
 
+const getMousePos = (canvas, evt) => {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top
+  };
+};
+
 const mouseMoveListener = (moveEvent) => {
-  const { x, y } = moveEvent;
-  const point = { x, y };
+  const point = getMousePos(canvas, moveEvent);
   drawPoint(point, 'blue');
-  // your code here :)
   ipcRenderer.send('draw', point);
 };
 
